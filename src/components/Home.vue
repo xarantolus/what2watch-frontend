@@ -8,7 +8,7 @@
 	<div class="container">
 		<section class="section watchlist">
 			<p class="title">Watchlist</p>
-			<div v-if="watchlistLoading">Loading...</div>
+			<button class="button is-loading" v-if="watchlistLoading">Loading...</button>
 			<div v-else class="columns is-8 is-multiline card-equal-height">
 				<div v-for="movie in watchList" :key="movie.id" class="column is-one-quarter">
 					<movie-card :movie="movie" />
@@ -84,5 +84,4 @@ export default defineComponent({
 .button {
 	font-size: larger;
 }
-
 </style>

@@ -13,7 +13,7 @@
     </div>
     <div class="navbar-end">
       <div class="navbar-menu" :class="{ 'is-active': menuOpen }">
-        <router-link class="navbar-item" to="/login">Login/Register</router-link>
+        <router-link class="navbar-item" to="/login">Login</router-link>
       </div>
     </div>
   </nav>

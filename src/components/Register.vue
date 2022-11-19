@@ -78,8 +78,11 @@ export default {
 }
 
 .container {
-  max-width: 500px;
   margin-left: auto;
   margin-right: auto;
+}
+
+.hero {
+	background: rgba(0, 0, 0, 0.5) !important;
 }
 </style>
