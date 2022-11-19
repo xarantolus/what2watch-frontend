@@ -4,7 +4,6 @@ import App from './App.vue'
 
 // setup vue-router with login redirect
 import { createRouter, createWebHistory } from 'vue-router';
-import { VueQueryPlugin } from "vue-query";
 
 const router = createRouter({
 	history: createWebHistory(),
@@ -37,7 +36,6 @@ const pb = new PocketBase('http://127.0.0.1:8090');
 const app = createApp(App)
 app.provide("pb", pb);
 app.use(router);
-app.use(VueQueryPlugin)
 
 
 

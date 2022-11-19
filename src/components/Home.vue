@@ -2,7 +2,7 @@
 	<section class="hero">
 		<div class="hero-body">
 			<p class="title has-text-white">Find out what to watch:</p>
-			<router-link class="button" to="/invite" tag="button">Invite your friend!</router-link>
+			<button class="button" @click.prevent="createLink">Invite your Friends!</button>
 		</div>
 	</section>
 	<div class="container">
@@ -25,6 +25,9 @@ import { defineComponent, onMounted, Ref, ref } from "vue";
 import shows from "../../data/nf-split.json";
 import { Movie, firstPosterOrBanner } from "../models/movie";
 import MovieCard from "./MovieCard.vue";
+import PocketBase from 'pocketbase';
+import { inject } from 'vue';
+
 
 async function returnAfterTimeout<T>(value: T, timeout: number): Promise<T> {
 	return new Promise((resolve) => {
@@ -37,23 +40,28 @@ async function returnAfterTimeout<T>(value: T, timeout: number): Promise<T> {
 export default defineComponent({
 	name: "Home",
 	setup() {
+		const pb = inject("pb") as PocketBase;
+
 		const watchList: Ref<Movie[]> = ref([]);
 		const loading = ref(true);
 		onMounted(async () => {
 			try {
-				const data = await returnAfterTimeout(
-					shows as unknown as Array<Movie>,
-					1000
-				);
+				let userId = JSON.stringify((pb.authStore as unknown as any).baseModel?.id);
+				if (!userId) {
+					pb.authStore.clear();
 
-				for (let i = data.length - 1; i > 0; i--) {
-					const j = Math.floor(Math.random() * (i + 1));
-					[data[i], data[j]] = [data[j], data[i]];
+					window.location.pathname = "/";
+					return;
 				}
 
-				// const res = await axios.get("https://jsonplaceholder.typicode.com/users");
-				watchList.value = data; // res.data;
-				// console.log(res);
+				let watchlist = await pb.collection("watchlist").getFullList(25, {
+					expand: 'movie',
+					filter: `user.id = ${userId}`
+				});
+
+				let movies = watchlist.map((w) => w.expand.movie);
+
+				watchList.value = movies as unknown as Movie[];
 			} catch (err) {
 				console.error(err);
 			} finally {
@@ -64,7 +72,16 @@ export default defineComponent({
 			watchList,
 			watchlistLoading: loading,
 			firstPosterOrBanner,
+			pb,
 		};
+	},
+	methods: {
+		async createLink() {
+			const id = await this.pb.collection('sessions').create({
+				creator: (this.pb.authStore as unknown as any).baseModel?.id
+			});
+			this.$router.push('invite/' + id.toString());
+		}
 	},
 	components: { MovieCard },
 });

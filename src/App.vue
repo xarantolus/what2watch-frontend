@@ -14,8 +14,7 @@
     <div class="navbar-end">
       <div class="navbar-menu" :class="{ 'is-active': menuOpen }">
         <router-link v-if="pb.authStore.isValid" class="navbar-item" to="/search">Search</router-link>
-
-        <a v-if="pb.authStore.isValid" @click.prevent="logout" class="navbar-item">Logout</a>
+        <a v-if="pb.authStore.isValid" @click="logout" class="navbar-item">Logout</a>
         <router-link v-else class="navbar-item" to="/login">Login</router-link>
       </div>
     </div>
@@ -39,7 +38,7 @@ export default {
     logout() {
       this.pb.authStore.clear();
 
-      this.$router.push("/login");
+      window.location.href = "/";
     },
   },
 };

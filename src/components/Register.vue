@@ -42,7 +42,7 @@
 </template>
 
 <script lang="ts">
-import { inject } from 'vue';
+import { inject, ref } from 'vue';
 import PocketBase from 'pocketbase';
 
 export default {
