@@ -14,7 +14,7 @@ import HelloWorld from './components/HelloWorld.vue'
         </router-link>
       </div>
       <div class="navbar-menu">
-        <div class="navbar-start">
+        <div class="navbar-end">
           <router-link class="navbar-item" to="/login">Login</router-link>
           <router-link class="navbar-item" to="/register">Register</router-link>
         </div>
