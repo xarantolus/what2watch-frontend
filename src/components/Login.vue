@@ -9,9 +9,9 @@
     </div>
 
     <div class="field">
-      <label class="label">E-Mail</label>
+      <label class="label">Username</label>
       <div>
-        <input class="input" type="text" v-model="email" placeholder="Email" />
+        <input class="input" type="text" v-model="username" placeholder="Username" />
       </div>
     </div>
 
@@ -22,8 +22,8 @@
       </div>
     </div>
 
-    <div class="field">
-      <div class="notification is-danger" v-if="error">
+    <div class="field" v-if="error">
+      <div class="notification is-danger">
         {{ error }}
       </div>
     </div>
@@ -41,14 +41,20 @@
 </template>
 
 <script lang="ts">
+import { inject, ref } from 'vue';
+import PocketBase from 'pocketbase';
+import { useRoute } from 'vue-router'
+import { useQuery } from 'vue-query';
+
 export default {
   name: "Login",
-  data() {
+  setup() {
     return {
-      email: "",
-      password: "",
-      error: "",
-      loading: false
+      username: ref(""),
+      password: ref(""),
+      error: ref(""),
+      loading: ref(false),
+      pb: inject("pb") as PocketBase,
     };
   },
   methods: {
@@ -57,13 +63,23 @@ export default {
       try {
         this.loading = true;
 
-        await new Promise(resolve => setTimeout(resolve, 2000));
+        const authData = await this.pb.collection('users').authWithPassword(
+          this.username, this.password
+        );
 
-        throw new Error("Login not implemented yet");
+        if (!authData) {
+          this.error = "Invalid username or password";
+          return;
+        }
+
+        const params = new URLSearchParams(window.location.search);
+        this.$router.push(params.get("redirect") || '/');
       } catch (error) {
         this.error = String(error);
+        console.log(error);
       } finally {
         this.loading = false;
+        console.log("finished loading")
       }
     },
   },
@@ -81,7 +97,6 @@ export default {
 }
 
 .hero {
-	background: rgba(0, 0, 0, 0.5) !important;
+  background: rgba(0, 0, 0, 0.5) !important;
 }
-
 </style>

@@ -13,7 +13,8 @@
     </div>
     <div class="navbar-end">
       <div class="navbar-menu" :class="{ 'is-active': menuOpen }">
-        <router-link class="navbar-item" to="/login">Login</router-link>
+        <a v-if="pb.authStore.isValid" @click.prevent="logout" class="navbar-item">Logout</a>
+        <router-link v-else class="navbar-item" to="/login">Login</router-link>
       </div>
     </div>
   </nav>
@@ -21,12 +22,23 @@
 </template>
 
 <script lang="ts">
+import { inject, ref } from 'vue';
+import PocketBase from 'pocketbase';
+
 export default {
   name: 'App',
-  data() {
+  setup() {
     return {
-      menuOpen: false,
+      menuOpen: ref(false),
+      pb: inject("pb") as PocketBase,
     };
+  },
+  methods: {
+    logout() {
+      this.pb.authStore.clear();
+
+      this.$router.push("/login");
+    },
   },
 };
 </script>

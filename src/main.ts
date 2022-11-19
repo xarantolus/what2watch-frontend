@@ -3,8 +3,8 @@ import './style.css'
 import App from './App.vue'
 
 // setup vue-router with login redirect
-import { createRouter, createWebHistory } from 'vue-router'
-
+import { createRouter, createWebHistory } from 'vue-router';
+import { VueQueryPlugin } from "vue-query";
 
 const router = createRouter({
 	history: createWebHistory(),
@@ -25,16 +25,25 @@ const router = createRouter({
 	],
 })
 
-// router.beforeEach((to, from, next) => {
-// 	console.log('beforeEach: ', to, from)
-// 	if (localStorage.getItem('token') || to.path === '/login' || to.path == "/register") {
-// 		next()
-// 	} else {
-// 		// redirect to login page, but keep the original path
-// 		next({ path: '/login', query: { redirect: to.fullPath } })
-// 	}
-// })
+
+import PocketBase from 'pocketbase';
+
+const pb = new PocketBase('http://127.0.0.1:8090');
 
 const app = createApp(App)
-app.use(router)
-app.mount('#app')
+app.provide("pb", pb);
+app.use(router);
+app.use(VueQueryPlugin)
+
+
+
+router.beforeEach((to, from, next) => {
+	if (pb.authStore.isValid || to.path === '/login' || to.path == "/register") {
+		next()
+	} else {
+		// redirect to login page, but keep the original path
+		next({ path: '/login', query: { redirect: to.fullPath } })
+	}
+})
+
+app.mount('#app');
