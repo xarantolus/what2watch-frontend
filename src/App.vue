@@ -1,33 +1,40 @@
-<script setup lang="ts">
-// This starter template is using Vue 3 <script setup> SFCs
-// Check out https://vuejs.org/api/sfc-script-setup.html#script-setup
-import HelloWorld from './components/HelloWorld.vue'
-</script>
-
 <template>
-  <div>
-    <nav class="navbar is-fixed-top is-dark" role="navigation" aria-label="main navigation">
-      <div class="navbar-brand">
-        <router-link class="navbar-item" to="/">
-          <img src="/apple-touch-icon.png" alt="wat2watch logo" />
-          <span class="is-size-4 ml-2">what2watch</span>
-        </router-link>
+  <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+      <router-link class="navbar-item" to="/">
+        <img src="/apple-touch-icon.png" alt="wat2watch logo" />
+        <span class="is-size-4 ml-2">what2watch</span>
+      </router-link>
+      <a class="navbar-burger" :class="{ 'is-active': menuOpen }" @click="menuOpen = !menuOpen">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
+    </div>
+    <div class="navbar-end">
+      <div class="navbar-menu" :class="{ 'is-active': menuOpen }">
+        <router-link class="navbar-item" to="/login">Login/Register</router-link>
       </div>
-      <div class="navbar-menu">
-        <div class="navbar-end">
-          <router-link class="navbar-item" to="/login">Login</router-link>
-          <router-link class="navbar-item" to="/register">Register</router-link>
-        </div>
-      </div>
-    </nav>
-    <router-view />
-  </div>
-
+    </div>
+  </nav>
+  <router-view />
 </template>
+
+<script lang="ts">
+export default {
+  name: 'App',
+  data() {
+    return {
+      menuOpen: false,
+    };
+  },
+};
+</script>
 
 <style>
 @import "../node_modules/bulma/css/bulma.min.css";
 @import "../node_modules/bulma-prefers-dark/css/bulma-prefers-dark.css";
+@import "../node_modules/@mdi/font/css/materialdesignicons.min.css";
 
 :root {
   --font-color: #1f2933;
@@ -52,7 +59,6 @@ import HelloWorld from './components/HelloWorld.vue'
     --button-color: #333;
   }
 
-  /* Some additional color fixes */
   .help {
     color: #aaa;
   }
@@ -60,12 +66,6 @@ import HelloWorld from './components/HelloWorld.vue'
   .invert-dm {
     filter: invert()
   }
-}
-
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
 }
 
 .logo:hover {
@@ -77,7 +77,11 @@ import HelloWorld from './components/HelloWorld.vue'
 }
 
 html,
-body {
+body,
+#app {
   height: 100vh;
+  width: 100vw;
+  margin: 0;
+  padding: 0;
 }
 </style>

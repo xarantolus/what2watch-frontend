@@ -1,6 +1,85 @@
 <template>
-	<!-- Login or registration page -->
-	<div>
-		Register
-	</div>
+  <!-- Bulma.css Login or registration page -->
+  <form @submit.prevent="register" class="box container">
+    <div class="hero">
+      <div class="hero-body">
+        <img src="/android-chrome-512x512.png" width="120" height="120" />
+        <div class="title">Register</div>
+        <div class="subtitle">Welcome!</div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="label">E-Mail</label>
+      <div>
+        <input class="input" type="text" v-model="email" placeholder="Email" />
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="label">Password</label>
+      <div>
+        <input class="input" type="password" v-model="password" placeholder="Password" />
+      </div>
+    </div>
+
+    <div class="field">
+      <div class="notification is-danger" v-if="error">
+        {{ error }}
+      </div>
+    </div>
+
+    <div class="field">
+      <button :class="{ 'is-loading': loading }" class="button is-primary" type="submit">Register</button>
+    </div>
+
+    <div>
+      <span>Already have an account?
+        <router-link to="/login">Login here</router-link>
+      </span>
+    </div>
+  </form>
 </template>
+
+<script lang="ts">
+export default {
+  name: "Register",
+  data() {
+    return {
+      email: "",
+      password: "",
+      error: "",
+      loading: false
+    };
+  },
+  methods: {
+    async register() {
+      //TODO API call to register user
+      try {
+        this.loading = true;
+
+        await new Promise(resolve => setTimeout(resolve, 2000));
+
+        throw new Error("Register not implemented yet");
+      } catch (error) {
+        this.error = String(error);
+      } finally {
+        this.loading = false;
+      }
+    },
+  },
+};
+</script>
+
+<style scoped>
+/* Login page style bulma.css */
+.title {
+  text-align: center;
+}
+
+.container {
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+</style>
