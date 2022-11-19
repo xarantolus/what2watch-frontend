@@ -10,6 +10,10 @@ export default defineComponent({
 		movie: {
 			type: Object as PropType<Movie>,
 			required: true
+		},
+		clickFunction: {
+			type: Function as PropType<(movie: Movie) => void>,
+			required: false
 		}
 	},
 	setup(props) {
@@ -25,9 +29,9 @@ export default defineComponent({
 		<div class="card">
 			<!-- Image on the left (fit), title on the right -->
 			<!-- image max height 20% of screen -->
-			<div class="card-image">
+			<div class="card-image" v-if="movie.banners || movie.posters">
 				<figure class="image">
-					<img :src="firstPosterOrBanner(movie)" alt="Placeholder image" />
+					<img :src="firstPosterOrBanner(movie)" alt="No image" />
 				</figure>
 			</div>
 
@@ -39,6 +43,10 @@ export default defineComponent({
 					</div>
 				</div>
 			</div>
+
+			<footer v-if="clickFunction" class="card-footer">
+				<button @click.prevent="clickFunction!(movie)" class="card-footer-item is-primary">Add to watchlist</button>
+			</footer>
 		</div>
 	</a>
 </template>

@@ -20,6 +20,10 @@ const router = createRouter({
 		{
 			path: '/',
 			component: () => import('./components/Home.vue'),
+		},
+		{
+			path: '/search',
+			component: () => import('./components/Search.vue'),
 		}
 		// TODO: Path for session/invite
 	],

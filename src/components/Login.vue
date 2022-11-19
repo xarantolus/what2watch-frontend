@@ -44,7 +44,6 @@
 import { inject, ref } from 'vue';
 import PocketBase from 'pocketbase';
 import { useRoute } from 'vue-router'
-import { useQuery } from 'vue-query';
 
 export default {
   name: "Login",

@@ -12,7 +12,7 @@
     <div class="field">
       <label class="label">E-Mail</label>
       <div>
-        <input class="input" type="text" v-model="email" placeholder="Email" />
+        <input class="input" type="text" v-model="username" placeholder="Email" />
       </div>
     </div>
 
@@ -42,14 +42,18 @@
 </template>
 
 <script lang="ts">
+import { inject } from 'vue';
+import PocketBase from 'pocketbase';
+
 export default {
   name: "Register",
   data() {
     return {
-      email: "",
+      username: "",
       password: "",
       error: "",
-      loading: false
+      loading: false,
+      pb: inject("pb") as PocketBase,
     };
   },
   methods: {
@@ -58,7 +62,11 @@ export default {
       try {
         this.loading = true;
 
-        await new Promise(resolve => setTimeout(resolve, 2000));
+        let result = await this.pb.collection("users").create({
+          username: this.username,
+          password: this.password,
+        });
+
 
         throw new Error("Register not implemented yet");
       } catch (error) {
@@ -83,6 +91,6 @@ export default {
 }
 
 .hero {
-	background: rgba(0, 0, 0, 0.5) !important;
+  background: rgba(0, 0, 0, 0.5) !important;
 }
 </style>
