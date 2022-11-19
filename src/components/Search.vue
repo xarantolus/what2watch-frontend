@@ -83,7 +83,11 @@ export default defineComponent({
 			}
 		},
 		async onClickMovie(movie: Movie) {
-			console.log("Clicked movie", movie)
+			console.log(this.pb.authStore);
+			await this.pb.collection("watchlist").create({
+				movie: movie.id,
+				user: (this.pb.authStore as unknown as any).baseModel?.id
+			});
 		}
 	},
 });
