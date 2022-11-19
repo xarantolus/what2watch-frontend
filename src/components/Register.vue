@@ -65,10 +65,14 @@ export default {
         let result = await this.pb.collection("users").create({
           username: this.username,
           password: this.password,
+          passwordConfirm: this.password,
         });
 
+        await this.pb.collection('users').authWithPassword(
+          this.username, this.password
+        );
 
-        throw new Error("Register not implemented yet");
+        this.$router.push("/");
       } catch (error) {
         this.error = String(error);
       } finally {
