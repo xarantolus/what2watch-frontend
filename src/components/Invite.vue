@@ -9,6 +9,7 @@
       <button class="button" @click="copyToClipBoard()">
         Copy this link to clipboard.
       </button>
+      <p v-if="copied">Copied to Clipboard!</p>
     </div>
     <div class="columns is-vcentered" v-if="(!partnerUsername && creatorUsername) || (!creatorUsername && partnerUsername)">
       <div class="column is-6">
@@ -66,6 +67,7 @@ export default defineComponent({
       sessionId: "" + this.$route.params.id,
       currentUrl: location.toString(),
       pb: inject("pb") as PocketBase,
+      copied: false,
     };
   },
   mounted() {
@@ -140,7 +142,10 @@ export default defineComponent({
     async copyToClipBoard() {
       try {
         await navigator.clipboard.writeText(this.currentUrl);
-        console.log("copied");
+        this.copied = true;
+        setTimeout(() => {
+                this.copied = false
+        }, 2500);
       } catch (e) {
         console.log(e);
       }
