@@ -12,7 +12,7 @@
     <div class="field">
       <label class="label">Username</label>
       <div>
-        <input class="input" type="text" v-model="username" placeholder="Email" />
+        <input class="input" type="text" v-model="username" placeholder="Username" />
       </div>
     </div>
 
