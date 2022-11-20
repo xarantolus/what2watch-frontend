@@ -29,7 +29,7 @@ export default defineComponent({
 		<div class="card">
 			<!-- Image on the left (fit), title on the right -->
 			<!-- image max height 20% of screen -->
-			<div class="card-image" v-if="movie.banners || movie.posters">
+			<div class="card-image">
 				<figure class="image">
 					<img :src="firstPosterOrBanner(movie)" alt="No image" />
 				</figure>

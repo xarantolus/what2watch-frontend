@@ -2,7 +2,7 @@
 	<section class="hero">
 		<div class="hero-body">
 			<p class="title has-text-white">Find out what to watch:</p>
-			<button class="button" @click.prevent="createLink">Invite your Friends!</button>
+			<button class="button" @click="createLink">Invite your Friends!</button>
 		</div>
 	</section>
 	<div class="container">
@@ -80,7 +80,7 @@ export default defineComponent({
 			const id = await this.pb.collection('sessions').create({
 				creator: (this.pb.authStore as unknown as any).baseModel?.id
 			});
-			this.$router.push('invite/' + id.toString());
+			this.$router.push('invite/' + id.id);
 		}
 	},
 	components: { MovieCard },

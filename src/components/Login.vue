@@ -73,6 +73,7 @@ export default {
 
         const params = new URLSearchParams(window.location.search);
         this.$router.push(params.get("redirect") || '/');
+        this.$forceUpdate();
       } catch (error) {
         this.error = String(error);
         console.log(error);
@@ -97,5 +98,13 @@ export default {
 
 .hero {
   background: rgba(0, 0, 0, 0.5) !important;
+}
+
+.box {
+        padding-top: 20px !important;
+        width: 500px !important;
+        text-align: center;
+        align-content: center;
+        align-self: center !important;
 }
 </style>

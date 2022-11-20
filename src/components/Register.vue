@@ -73,6 +73,7 @@ export default {
         );
 
         this.$router.push("/");
+        this.$forceUpdate();
       } catch (error) {
         this.error = String(error);
       } finally {
@@ -96,5 +97,13 @@ export default {
 
 .hero {
   background: rgba(0, 0, 0, 0.5) !important;
+}
+
+.box {
+        padding-top: 20px !important;
+        width: 500px !important;
+        text-align: center;
+        align-content: center;
+        align-self: center !important;
 }
 </style>

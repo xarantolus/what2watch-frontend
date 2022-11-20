@@ -13,9 +13,9 @@
     </div>
     <div class="navbar-end">
       <div class="navbar-menu" :class="{ 'is-active': menuOpen }">
-        <router-link v-if="pb.authStore.isValid" class="navbar-item" to="/search">Search</router-link>
-        <a v-if="pb.authStore.isValid" @click="logout" class="navbar-item">Logout</a>
-        <router-link v-else class="navbar-item" to="/login">Login</router-link>
+        <router-link class="navbar-item" to="/search">Search</router-link>
+        <a @click.prevent="logout" class="navbar-item">Logout</a>
+        <router-link class="navbar-item" to="/login">Login</router-link>
       </div>
     </div>
   </nav>
